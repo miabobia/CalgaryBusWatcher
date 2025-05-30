@@ -1,0 +1,5 @@
+**/__pycache__/
+**/CT_GTFS/
+*.zip
+*.pb
+*.proto
