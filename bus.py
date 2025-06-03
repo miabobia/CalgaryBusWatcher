@@ -5,7 +5,6 @@
 # name: str -> taken from text files
 from dataclasses import dataclass
 
-
 @dataclass
 class Bus:
     position: tuple[float, float] # latitude, longitude

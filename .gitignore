@@ -3,3 +3,6 @@
 *.zip
 *.pb
 *.proto
+.env
+**/db/
+*.db

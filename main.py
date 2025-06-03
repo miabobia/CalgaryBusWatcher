@@ -40,7 +40,7 @@ def read_vehicle_positions(feed: gtfs_realtime_pb2.FeedMessage):
                 vehicle.position.longitude
             ],
             timestamp=vehicle.timestamp,
-            vehicle_id=vehicle.vehicle_id,
+            vehicle_id=vehicle.trip.vehicle_id,
             trip_id=vehicle.trip.trip_id,
             name=short_name
             
@@ -49,8 +49,7 @@ def read_vehicle_positions(feed: gtfs_realtime_pb2.FeedMessage):
 
     # print(len(vehicle_ids), len(set(vehicle_ids)))
 # Example usage:
-# read_vehicle_positions(read_protobuf("vehiclepositions.pb"))
-fetch_route_name('')
+read_vehicle_positions(read_protobuf("vehiclepositions.pb"))
 
 
 # TODAY:
