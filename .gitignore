@@ -1,0 +1,8 @@
+**/__pycache__/
+**/CT_GTFS/
+*.zip
+*.pb
+*.proto
+.env
+**/db/
+*.db
