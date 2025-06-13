@@ -26,3 +26,10 @@ class Trip(models.Model):
     direction_id = models.IntegerField(blank=True, null=True)
     block_id = models.CharField(max_length=100, blank=True, null=True)
     shape_id = models.CharField(max_length=100, blank=True, null=True)
+
+    def __repr__(self):
+        return f'''
+        -> {self.route}
+        -> {self.service_id}
+        -> {self.trip_id}
+'''

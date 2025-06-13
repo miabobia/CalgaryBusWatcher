@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core_transit_app',
-    'django_crontab'
+    'django_crontab',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -101,8 +102,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 CRONJOBS = [
-    ('* * * * *', 'data_collection_app.tasks.example_task', '>> /tmp/django_cron_example.log 2>&1'),
-    ('* * * * *', 'data_collection_app.tasks.update_route_table', '>> /tmp/django_cron_routes.log 2>&1'),
+    ('* * * * *', 'data_collection_app.tasks.update_gtfs', '>> /tmp/django_cron_update_gtfs.log 2>&1')
+    # ('* * * * *', 'data_collection_app.tasks.update_route_table', '>> /tmp/django_cron_routes.log 2>&1'),
 ]
 
 # Internationalization

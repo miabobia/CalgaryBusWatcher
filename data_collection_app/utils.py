@@ -1,7 +1,5 @@
 import hashlib
 import requests
-import os
-import shutil
 import zipfile
 
 BUF_SIZE = 65536  # lets read stuff in 64kb chunks!
