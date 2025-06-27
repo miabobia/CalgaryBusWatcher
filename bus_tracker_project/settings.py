@@ -39,10 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core_transit_app',
     'django_crontab',
-    'rest_framework'
+    'rest_framework',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -79,6 +82,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+        'OPTIONS': {
+            'init_command': "PRAGMA journal_mode=WAL;",
+        }
     }
 }
 
@@ -101,9 +107,20 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.SearchFilter',
+    ]
+}
+
 CRONJOBS = [
-    ('* * * * *', 'data_collection_app.tasks.update_gtfs', '>> /tmp/django_cron_update_gtfs.log 2>&1')
-    # ('* * * * *', 'data_collection_app.tasks.update_route_table', '>> /tmp/django_cron_routes.log 2>&1'),
+    ('*/2 * * * *', 'data_collection_app.tasks.update_gtfs', '>> /tmp/django_cron_update_gtfs.log 2>&1'),
+    ('*/5 * * * *', 'data_collection_app.tasks.update_bus_position', '>> /tmp/update_bus_positions.log 2>&1')
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
 ]
 
 # Internationalization

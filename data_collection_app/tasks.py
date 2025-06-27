@@ -8,12 +8,17 @@ from core_transit_app.models import Route
 import datetime
 from .utils import download_file, unzip_file, hash_file
 from .refresh_gtfs import update_tables
+from .translate_vehicle_positions import read_protobuf, read_vehicle_positions
+import time
 
 
 TEMP_PATH = '/home/mia_bobia/Documents/bus_tracker/bus_tracker_project/data_collection_app/TEMP_CT_GTFS.zip'
 GTFS_PATH = '/home/mia_bobia/Documents/bus_tracker/bus_tracker_project/data_collection_app/CT_GTFS.zip'
 GTFS_URL = 'https://data.calgary.ca/download/npk7-z3bj/application/zip'
 GTFS_OUTPUT_DIR = '/home/mia_bobia/Documents/bus_tracker/bus_tracker_project/data_collection_app/CT_GTFS'
+
+VEHICLE_POSITIONS_URL = "https://data.calgary.ca/download/am7c-qe3u/application/octet-stream"
+VEHICLE_POSITIONS_PATH = "/home/mia_bobia/Documents/bus_tracker/bus_tracker_project/data_collection_app/vehiclepositions.pb"
 
 def example_task():
     print(f'creating example_task_file.txt at {datetime.date()} - {datetime.time()}')
@@ -33,14 +38,16 @@ def delete_dir(dir: str):
         print(f'Error: {e.filename} - {e.strerror}.')
 
 def update_gtfs():
-    print('updating gtfs !!')
+    print(f'UPDATE_GTFS(): {time.asctime()}')
     download_file(GTFS_URL, TEMP_PATH)
     gtfs_hash = hash_file(GTFS_PATH)
     temp_gtfs_hash = hash_file(TEMP_PATH)
 
     # ct_gtfs.zip does not need to be updated
-    if gtfs_hash == temp_gtfs_hash:
-        print(f'{TEMP_PATH} hash == {GTFS_PATH} hash !')
+    # if gtfs_hash == temp_gtfs_hash:
+    if False:
+        print(f'hashes match nothing being overwritten!')
+        # print(f'{TEMP_PATH} hash == {GTFS_PATH} hash !')
         os.remove(TEMP_PATH)
         return
 
@@ -58,4 +65,10 @@ def update_gtfs():
     # after thatttt we delete unzipped dir
 
 def update_bus_position():
-    pass
+    print(f'UPDATE_BUS_POSITION(): {time.asctime()}')
+
+    # download bus positions
+    download_file(VEHICLE_POSITIONS_URL, VEHICLE_POSITIONS_PATH)
+
+    # overwrite bus position
+    read_vehicle_positions(read_protobuf(VEHICLE_POSITIONS_PATH))
